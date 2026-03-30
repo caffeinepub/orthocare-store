@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useNavigate, useRouter } from "@tanstack/react-router";
 import {
   AppWindow,
+  Edit,
   LayoutDashboard,
   LogOut,
   Menu,
@@ -18,6 +19,7 @@ const navLinks = [
   { label: "Products", icon: Package, to: "/admin/products" },
   { label: "Orders", icon: ShoppingBag, to: "/admin/orders" },
   { label: "Customers", icon: Users, to: "/admin/customers" },
+  { label: "Edit Website", icon: Edit, to: "/admin/edit-website" },
   { label: "Settings", icon: Settings, to: "/admin/settings" },
   { label: "App", icon: AppWindow, to: "/admin/app" },
 ];
@@ -91,7 +93,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
                   navigate({ to: link.to as "/admin" });
                   setSidebarOpen(false);
                 }}
-                data-ocid={`admin.nav.${link.label.toLowerCase()}.link`}
+                data-ocid={`admin.nav.${link.label.toLowerCase().replace(" ", "_")}.link`}
                 className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors ${
                   active
                     ? "bg-white/20 text-white"

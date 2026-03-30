@@ -10,6 +10,7 @@ import { AdminLayout } from "./components/AdminLayout";
 import { Layout } from "./components/Layout";
 import { ProtectedAdmin } from "./components/ProtectedAdmin";
 import { AppProvider } from "./context/AppContext";
+import { SiteContentProvider } from "./context/SiteContentContext";
 import { AccountPage } from "./pages/AccountPage";
 import { CartPage } from "./pages/CartPage";
 import { ContactPage } from "./pages/ContactPage";
@@ -22,6 +23,7 @@ import { WishlistPage } from "./pages/WishlistPage";
 import { AdminAppManagementPage } from "./pages/admin/AdminAppManagementPage";
 import { AdminCustomersPage } from "./pages/admin/AdminCustomersPage";
 import { AdminDashboardPage } from "./pages/admin/AdminDashboardPage";
+import { AdminEditWebsitePage } from "./pages/admin/AdminEditWebsitePage";
 import { AdminLoginPage } from "./pages/admin/AdminLoginPage";
 import { AdminOrdersPage } from "./pages/admin/AdminOrdersPage";
 import { AdminProductsPage } from "./pages/admin/AdminProductsPage";
@@ -30,10 +32,12 @@ import { AdminSettingsPage } from "./pages/admin/AdminSettingsPage";
 // ---- Bare root (no layout) ----
 const rootRoute = createRootRoute({
   component: () => (
-    <AppProvider>
-      <Outlet />
-      <Toaster />
-    </AppProvider>
+    <SiteContentProvider>
+      <AppProvider>
+        <Outlet />
+        <Toaster />
+      </AppProvider>
+    </SiteContentProvider>
   ),
 });
 
@@ -204,6 +208,18 @@ const adminAppRoute = createRoute({
   },
 });
 
+const adminEditWebsiteRoute = createRoute({
+  getParentRoute: () => adminLayoutRoute,
+  path: "/admin/edit-website",
+  component: function AdminEditWebsiteRouteComponent() {
+    return (
+      <ProtectedAdmin>
+        <AdminEditWebsitePage />
+      </ProtectedAdmin>
+    );
+  },
+});
+
 const routeTree = rootRoute.addChildren([
   customerLayoutRoute.addChildren([
     indexRoute,
@@ -224,6 +240,7 @@ const routeTree = rootRoute.addChildren([
     adminCustomersRoute,
     adminSettingsRoute,
     adminAppRoute,
+    adminEditWebsiteRoute,
   ]),
 ]);
 

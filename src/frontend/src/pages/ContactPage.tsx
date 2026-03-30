@@ -6,9 +6,11 @@ import { Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { motion } from "motion/react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useSiteContent } from "../context/SiteContentContext";
 
 export function ContactPage() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const { content: siteContent } = useSiteContent();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,14 +22,14 @@ export function ContactPage() {
     {
       icon: Mail,
       title: "Email Us",
-      value: "support@orthocare.com",
+      value: siteContent.contactEmail,
       desc: "We reply within 24 hours",
     },
     {
       icon: Phone,
       title: "Call Us",
-      value: "+91 98765 43210",
-      desc: "Mon–Sat, 9 AM – 6 PM",
+      value: siteContent.contactPhone,
+      desc: siteContent.contactHours,
     },
     {
       icon: MessageCircle,
@@ -38,7 +40,7 @@ export function ContactPage() {
     {
       icon: MapPin,
       title: "Location",
-      value: "Mumbai, India",
+      value: siteContent.contactAddress,
       desc: "Serving pan-India",
     },
   ];

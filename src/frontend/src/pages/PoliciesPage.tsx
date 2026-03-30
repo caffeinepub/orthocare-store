@@ -1,6 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AlertTriangle, RotateCcw, Shield, Truck } from "lucide-react";
 import { motion } from "motion/react";
+import { useSiteContent } from "../context/SiteContentContext";
 
 const POLICIES = [
   {
@@ -98,6 +99,12 @@ const POLICIES = [
 ];
 
 export function PoliciesPage() {
+  const { content: siteContent } = useSiteContent();
+  const adminPolicySummary: Record<string, string> = {
+    shipping: siteContent.shippingPolicy,
+    returns: siteContent.returnPolicy,
+    privacy: siteContent.privacyPolicy,
+  };
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
       <motion.div
@@ -145,6 +152,13 @@ export function PoliciesPage() {
               <h2 className="text-2xl font-bold text-foreground">
                 {policy.label}
               </h2>
+              {adminPolicySummary[policy.key] && (
+                <div className="bg-primary/5 border border-primary/20 rounded-xl p-5">
+                  <p className="text-sm text-foreground leading-relaxed whitespace-pre-line">
+                    {adminPolicySummary[policy.key]}
+                  </p>
+                </div>
+              )}
               {policy.content.map((section) => (
                 <div
                   key={section.title}

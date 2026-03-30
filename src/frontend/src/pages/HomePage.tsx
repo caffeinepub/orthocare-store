@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { ProductCard } from "../components/ProductCard";
+import { useSiteContent } from "../context/SiteContentContext";
 import { CATEGORIES } from "../data/mockData";
 import { useProducts, useWishlist } from "../hooks/useQueries";
 
@@ -61,6 +62,7 @@ const TRUST_BADGES = [
 export function HomePage() {
   const { data: products = [] } = useProducts();
   const { data: wishlistIds = [] } = useWishlist();
+  const { content: siteContent } = useSiteContent();
   const [email, setEmail] = useState("");
   const bestsellers = products.slice(0, 4);
 
@@ -75,7 +77,7 @@ export function HomePage() {
       {/* Hero Section */}
       <section className="relative min-h-[520px] flex items-center overflow-hidden">
         <img
-          src="/assets/generated/hero-banner.dim_1200x500.jpg"
+          src={siteContent.heroBannerUrl}
           alt="OrthoCare Hero"
           className="absolute inset-0 w-full h-full object-cover"
         />
@@ -97,13 +99,10 @@ export function HomePage() {
               Trusted Orthopedic Care
             </p>
             <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-4">
-              Move Better,
-              <br />
-              Live Pain-Free
+              {siteContent.heroHeadline}
             </h1>
             <p className="text-white/85 text-base md:text-lg mb-8 leading-relaxed">
-              Medically approved orthopedic solutions to improve mobility,
-              reduce pain, and support a healthier lifestyle.
+              {siteContent.heroSubheadline}
             </p>
             <div className="flex flex-wrap gap-3">
               <Button
